@@ -9,7 +9,7 @@ function Square({ alive }) {
 }
 
 Square.propTypes = {
-	alive: React.PropTypes.bool
+	alive: React.PropTypes.bool.isRequired
 };
 
 export default Square;
