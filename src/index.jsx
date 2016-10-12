@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Square from './components/Square';
 
 class App extends React.Component {
 	render() {
 		return (
-			<h1>Hello World</h1>
+			<div>
+				<Square alive={true} />
+				<Square alive={false} />
+			</div>
 		);
 	}
 }
