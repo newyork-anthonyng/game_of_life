@@ -14,7 +14,7 @@ class BoardSquare extends React.Component {
 
 	render() {
 		return (
-			<div onClick={this.handleClick}>
+			<div className="boardSquare" onClick={this.handleClick}>
 				<Square alive={this.props.alive} />
 			</div>
 		);
