@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import BoardContainer from './containers/BoardContainer';
+import App from './containers/App';
 
-class App extends React.Component {
+class Page extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -10,13 +10,13 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				<BoardContainer />
+				<App />
 			</div>
 		);
 	}
 }
 
 ReactDOM.render(
-	<App />,
+	<Page />,
 	document.getElementById('app')
 );
