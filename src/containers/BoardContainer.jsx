@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from '../components/Board';
+import Logic from '../Logic';
 
 class BoardContainer extends React.Component {
 	constructor() {
@@ -28,11 +29,9 @@ class BoardContainer extends React.Component {
 
 	startTimer() {
 		this.interval = setInterval(() => {
-			const newGrid = this.state.grid.map((square) => {
-				return !square;
-			});
+			const newGrid = Logic.getNextGrid(this.state.grid);
 			this.setState({ grid: newGrid });
-		}, 1000);
+		}, 500);
 	}
 
 	stopTimer() {
