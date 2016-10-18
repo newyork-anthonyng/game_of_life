@@ -1,4 +1,4 @@
-import Logic from '../src/Logic';
+import Logic from '../src/logic';
 import { expect } from 'chai';
 
 describe('Logic', () => {

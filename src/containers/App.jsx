@@ -1,6 +1,6 @@
 import React from 'react';
 import BoardContainer from './BoardContainer';
-import Logic from '../Logic';
+import Logic from '../logic';
 
 class App extends React.Component {
 	constructor() {
