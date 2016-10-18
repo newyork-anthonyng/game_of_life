@@ -13,21 +13,21 @@ import sinon from 'sinon';
 
 describe('BoardContainer', () => {
 	it('should render a Board', () => {
-		const component = renderIntoDocument(<BoardContainer />);
+		const component = renderIntoDocument(<BoardContainer gridSize={10} />);
 		const board = findRenderedComponentWithType(component, Board);
 
 		expect(board).to.be.ok;
 	});
 
 	it('should initially render with no alive squares', () => {
-		const component = renderIntoDocument(<BoardContainer />);
+		const component = renderIntoDocument(<BoardContainer gridSize={10} />);
 		const aliveSquares = scryRenderedDOMComponentsWithClass(component, 'alive');
 
 		expect(aliveSquares.length).to.equal(0);
 	});
 
 	it('should toggle squares between alive and not alive when clicked', () => {
-		const component = renderIntoDocument(<BoardContainer />);
+		const component = renderIntoDocument(<BoardContainer gridSize={10} />);
 		const squares = scryRenderedDOMComponentsWithClass(component, 'square');
 
 		let aliveSquares = scryRenderedDOMComponentsWithClass(component, 'alive');
@@ -46,19 +46,37 @@ describe('BoardContainer', () => {
 
 	it('should start a timer', () => {
 		const clock = sinon.useFakeTimers();
+
+		let logicInvoked = 0;
+		const logic = (() => {
+			const getNextGrid =() => {
+				logicInvoked++;
+				return [];
+			};
+
+			return { getNextGrid };
+		})();
+
 		const node = document.createElement('div');
-		const component = ReactDOM.render(<BoardContainer isPlaying={false} />, node);
-		const squares = scryRenderedDOMComponentsWithClass(component, 'square');
+		const speed = 500;
+		const component = ReactDOM.render(
+			<BoardContainer
+				isPlaying={false}
+				gridSize={10}
+				logic={logic}
+				speed={speed}
+			/>, node);
 
-		Simulate.click(squares[0]);
-		let aliveSquares = scryRenderedDOMComponentsWithClass(component, 'alive');
-		expect(aliveSquares.length).to.equal(1);
+		// start timer by changing isPlaying from false to true
+		ReactDOM.render(<BoardContainer
+			isPlaying={true}
+			gridSize={10}
+			logic={logic}
+			speed={speed}
+		/>, node);
 
-		ReactDOM.render(<BoardContainer isPlaying={true} />, node);
-		clock.tick(1000);
-		// In the interval method, the BoardContainer is simply toggling the alive state
-		aliveSquares = scryRenderedDOMComponentsWithClass(component, 'alive');
-		//expect(aliveSquares.length).to.equal(99);
+		clock.tick(speed);
+		expect(logicInvoked).to.equal(1);
 
 		clock.restore();
 	});

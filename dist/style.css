@@ -2,29 +2,27 @@
 	box-sizing: border-box;
 }
 
-html, body {
-	height: 100%;
-	width: 1000px;
-}
-
+html,
+body,
+#app,
 div {
-	height: 100px;
-}
-
-.square {
-	background-color: #eee;
-	border: 3px solid #c0c0c0;
-	display: inline-block;
-	width: 100px;
-}
-
-.square.alive {
-	background-color: rgb(50, 50, 50);
+	height: 100%;
+	width: 100%;
 }
 
 .board {
 	display: flex;
 	flex-wrap: wrap;
-	width: 100%;
-	height: 100%;
+	height: 650px;
+	width: 650px;
+}
+
+.square {
+	background-color: #eee;
+	border: 2px solid #c0c0c0;
+	display: inline-block;
+}
+
+.square.alive {
+	background-color: rgb(50, 50, 50);
 }

@@ -6,22 +6,29 @@ class Board extends React.Component {
 		super();
 
 		this.renderSquare = this.renderSquare.bind(this);
+		this._getSquareProps = this._getSquareProps.bind(this);
 	}
 
 	renderSquare(i) {
-		const x = i % 10;
-		const y = Math.floor(i / 10);
-		const alive = this.props.grid[i];
+		return (
+			<BoardSquare key={i} {...this._getSquareProps(i)} />
+		);
+	}
 
+	_getSquareProps(i) {
+		const height = Math.sqrt(this.props.grid.length);
+		const x = i % height;
+		const y = Math.floor(i / height);
+		const alive = this.props.grid[i];
 		const handleClick= (x, y) => { this.props.handleSquareClick(x, y); };
 
-		return (
-			<BoardSquare key={i}
-				alive={alive}
-				x={x}
-				y={y}
-				handleClick={handleClick} />
-		);
+		return {
+			height,
+			x,
+			y,
+			alive,
+			handleClick
+		};
 	}
 
 	render() {

@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Board from '../components/Board';
-import Logic from '../Logic';
 
 class BoardContainer extends React.Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 
-		const initialGrid = new Array(100);
+		const initialGrid = new Array(Math.pow(this.props.gridSize, 2));
 		initialGrid.fill(false);
 		this.state = { grid: initialGrid };
 		this.interval = null;
@@ -14,24 +13,33 @@ class BoardContainer extends React.Component {
 		this.updateSquare = this.updateSquare.bind(this);
 		this.startTimer = this.startTimer.bind(this);
 		this.stopTimer = this.stopTimer.bind(this);
+
+		this._shouldStartTimer = this._shouldStartTimer.bind(this);
+		this._shouldStopTimer = this._shouldStopTimer.bind(this);
+		this._getUpdatedGrid= this._getUpdatedGrid.bind(this);
 	}
 
 	componentDidUpdate(prevProp) {
-		const shouldStartTimer = (!prevProp.isPlaying && this.props.isPlaying);
-		const shouldStopTimer = (prevProp.isPlaying && !this.props.isPlaying);
-
-		if(shouldStartTimer) {
+		if(this._shouldStartTimer(prevProp)) {
 			this.startTimer();
-		} else if(shouldStopTimer) {
+		} else if(this._shouldStopTimer(prevProp)) {
 			this.stopTimer();
 		}
 	}
 
+	_shouldStartTimer(prevProp) {
+		return (!prevProp.isPlaying && this.props.isPlaying);
+	}
+
+	_shouldStopTimer(prevProp) {
+		return (prevProp.isPlaying && !this.props.isPlaying);
+	}
+
 	startTimer() {
 		this.interval = setInterval(() => {
-			const newGrid = Logic.getNextGrid(this.state.grid);
+			const newGrid = this.props.logic.getNextGrid(this.state.grid);
 			this.setState({ grid: newGrid });
-		}, 500);
+		}, this.props.speed);
 	}
 
 	stopTimer() {
@@ -40,11 +48,15 @@ class BoardContainer extends React.Component {
 	}
 
 	updateSquare(x, y) {
-		const newGrid = this.state.grid.slice();
-		const index = (y * 10) + x;
-		newGrid[index] = !newGrid[index];
+		this.setState({ grid: this._getUpdatedGrid(x, y) });
+	}
 
-		this.setState({ grid: newGrid });
+	_getUpdatedGrid(x, y) {
+		const updatedGrid = this.state.grid.slice();
+		const index = (y * this.props.gridSize) + x;
+		updatedGrid[index] = !updatedGrid[index];
+
+		return updatedGrid;
 	}
 
 	render() {
@@ -58,7 +70,10 @@ class BoardContainer extends React.Component {
 }
 
 BoardContainer.propTypes = {
-	isPlaying: React.PropTypes.bool.isRequired
+	isPlaying: PropTypes.bool.isRequired,
+	gridSize: PropTypes.number.isRequired,
+	logic: PropTypes.object.isRequired,
+	speed: PropTypes.number.isRequired
 };
 
 export default BoardContainer;

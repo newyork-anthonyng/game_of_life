@@ -1,5 +1,6 @@
 import React from 'react';
 import BoardContainer from './BoardContainer';
+import Logic from '../Logic';
 
 class App extends React.Component {
 	constructor() {
@@ -15,12 +16,21 @@ class App extends React.Component {
 
 	render() {
 		const buttonText = this.state.isPlaying ? 'Pause' : 'Play';
+		const gridSize = 20;
+		const speed = 600;
+		Logic.setGridSize(gridSize);
+
 		return(
 			<div>
 				<button onClick={this.handleClick}>
 					{buttonText}
 				</button>
-				<BoardContainer isPlaying={this.state.isPlaying} />
+				<BoardContainer
+					gridSize={gridSize}
+					isPlaying={this.state.isPlaying}
+					logic={Logic}
+					speed={speed}
+					/>
 			</div>
 		);
 	}

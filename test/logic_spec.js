@@ -2,10 +2,12 @@ import Logic from '../src/Logic';
 import { expect } from 'chai';
 
 describe('Logic', () => {
+	const gridSize = 10;
 	let grid;
 
 	beforeEach(() => {
-		grid = Array(100);
+		Logic.setGridSize(gridSize);
+		grid = Array(Math.pow(gridSize, 2));
 		grid.fill(false);
 	});
 
