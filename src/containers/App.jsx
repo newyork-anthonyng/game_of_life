@@ -8,10 +8,15 @@ class App extends React.Component {
 
 		this.state = { isPlaying: false };
 		this.handleClick = this.handleClick.bind(this);
+		this.handleEmptyBoard = this.handleEmptyBoard.bind(this);
 	}
 
 	handleClick() {
 		this.setState({ isPlaying: !this.state.isPlaying });
+	}
+
+	handleEmptyBoard() {
+		this.setState({ isPlaying: false });
 	}
 
 	render() {
@@ -28,6 +33,7 @@ class App extends React.Component {
 				<BoardContainer
 					gridSize={gridSize}
 					isPlaying={this.state.isPlaying}
+					onEmptyBoard={this.handleEmptyBoard}
 					logic={Logic}
 					speed={speed}
 					/>

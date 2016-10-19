@@ -49,10 +49,48 @@ describe('BoardContainer', () => {
 
 		let logicInvoked = 0;
 		const logic = (() => {
-			const getNextGrid =() => {
+			const getNextGrid = () => {
 				logicInvoked++;
 				return [];
 			};
+
+			return { getNextGrid };
+		})();
+		const onEmptyBoard = () => {};
+
+		const node = document.createElement('div');
+		const speed = 500;
+		const component = ReactDOM.render(
+			<BoardContainer
+				isPlaying={false}
+				gridSize={10}
+				logic={logic}
+				speed={speed}
+				onEmptyBoard={onEmptyBoard}
+			/>, node);
+
+		// start timer by changing isPlaying from false to true
+		ReactDOM.render(<BoardContainer
+			isPlaying={true}
+			gridSize={10}
+			logic={logic}
+			speed={speed}
+			onEmptyBoard={onEmptyBoard}
+		/>, node);
+
+		clock.tick(speed);
+		expect(logicInvoked).to.equal(1);
+
+		clock.restore();
+	});
+
+	it('should call onEmptyBoard when board is empty', () => {
+		const clock = sinon.useFakeTimers();
+
+		let onEmptyBoardInvoked = false;
+		const callback = () => { onEmptyBoardInvoked = true };
+		const logic = (() => {
+			const getNextGrid = () => [];
 
 			return { getNextGrid };
 		})();
@@ -65,18 +103,22 @@ describe('BoardContainer', () => {
 				gridSize={10}
 				logic={logic}
 				speed={speed}
+				onEmptyBoard={callback}
 			/>, node);
 
-		// start timer by changing isPlaying from false to true
-		ReactDOM.render(<BoardContainer
-			isPlaying={true}
-			gridSize={10}
-			logic={logic}
-			speed={speed}
-		/>, node);
+		ReactDOM.render(
+			<BoardContainer
+				isPlaying={true}
+				gridSize={10}
+				logic={logic}
+				speed={speed}
+				onEmptyBoard={callback}
+			/>, node);
+
+		expect(onEmptyBoardInvoked).to.be.false;
 
 		clock.tick(speed);
-		expect(logicInvoked).to.equal(1);
+		expect(onEmptyBoardInvoked).to.be.true;
 
 		clock.restore();
 	});

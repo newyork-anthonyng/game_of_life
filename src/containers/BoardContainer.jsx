@@ -39,6 +39,10 @@ class BoardContainer extends React.Component {
 		this.interval = setInterval(() => {
 			const newGrid = this.props.logic.getNextGrid(this.state.grid);
 			this.setState({ grid: newGrid });
+
+			if(newGrid.filter((square) => square).length === 0) {
+				this.props.onEmptyBoard();
+			}
 		}, this.props.speed);
 	}
 
@@ -73,7 +77,8 @@ BoardContainer.propTypes = {
 	isPlaying: PropTypes.bool.isRequired,
 	gridSize: PropTypes.number.isRequired,
 	logic: PropTypes.object.isRequired,
-	speed: PropTypes.number.isRequired
+	speed: PropTypes.number.isRequired,
+	onEmptyBoard: PropTypes.func.isRequired
 };
 
 export default BoardContainer;
