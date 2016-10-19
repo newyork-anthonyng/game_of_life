@@ -21,7 +21,7 @@ class App extends React.Component {
 
 	render() {
 		const buttonText = this.state.isPlaying ? 'Pause' : 'Play';
-		const gridSize = 20;
+		const gridSize = 30;
 		const speed = 600;
 		Logic.setGridSize(gridSize);
 

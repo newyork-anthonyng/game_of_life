@@ -3,9 +3,7 @@
 }
 
 html,
-body,
-#app,
-div {
+body {
 	height: 100%;
 	width: 100%;
 }
@@ -13,14 +11,17 @@ div {
 .board {
 	display: flex;
 	flex-wrap: wrap;
-	height: 650px;
-	width: 650px;
+	height: calc(100vh - 100px);
+	width: calc(100vh - 100px);
+	margin: 0 auto;
 }
 
 .square {
 	background-color: #eee;
 	border: 2px solid #c0c0c0;
 	display: inline-block;
+	height: 100%;
+	width: 100%;
 }
 
 .square.alive {
