@@ -37,6 +37,14 @@ class App extends React.Component {
 					logic={Logic}
 					speed={speed}
 					/>
+				<footer>
+					<a href="https://github.com/newyork-anthonyng/game_of_life" title="GitHub">
+						<img src="./assets/github.png" alt="GitHub" />
+					</a>
+					<a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" title="Wikipedia">
+						Learn more about Conway's Game of Life
+					</a>
+				</footer>
 			</div>
 		);
 	}
