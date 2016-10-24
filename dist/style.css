@@ -6,6 +6,8 @@ html,
 body {
 	height: 100%;
 	width: 100%;
+	display: flex;
+	justify-content: center;
 }
 
 .board {
@@ -13,7 +15,6 @@ body {
 	flex-wrap: wrap;
 	height: calc(100vh - 100px);
 	width: calc(100vh - 100px);
-	margin: 0 auto;
 }
 
 .square {
